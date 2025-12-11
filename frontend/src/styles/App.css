@@ -1,0 +1,76 @@
+/* Basic clean styling for S3 static website */
+
+body {
+  background: #fafafa;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 750px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.card {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 35px;
+  border-radius: 10px;
+  border: 1px solid #eaeaea;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+input[type="file"],
+input[type="text"] {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+}
+
+button {
+  background: #000;
+  color: white;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #333;
+}
+
+.status {
+  margin-top: 10px;
+  color: #444;
+}
+
+.recommendation-box {
+  margin-top: 20px;
+  border-left: 4px solid #333;
+  padding-left: 12px;
+}
