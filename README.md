@@ -1,6 +1,6 @@
 # **CluelessStyleMatcher**
 
-### AI-Powered Wardrobe & Outfit Recommender
+### AI-Powered Wardrobe & Outfit Recommender: DEMO
 
 ![CluelessStyleMatcher Docs](./docs/overview.md)
 
