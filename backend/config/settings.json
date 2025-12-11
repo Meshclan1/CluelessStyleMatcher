@@ -1,0 +1,8 @@
+{
+  "upload_bucket": "clueless-uploads",
+  "frontend_bucket": "clueless-frontend",
+  "dynamodb_table": "WardrobeItems",
+  "api_gateway_endpoint": "https://example.execute-api.eu-west-1.amazonaws.com/prod",
+  "rekognition_labels_max": 10,
+  "bedrock_model_id": "clothing-recommender"
+}
