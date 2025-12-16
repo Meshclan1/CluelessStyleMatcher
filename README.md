@@ -4,6 +4,12 @@
 
 ![CluelessStyleMatcher Docs](./docs/overview.md)
 
+Architecture High-Level Diagram Layout
+
+The diagram below illustrates the architecture of **CluelessStyleMatcher**. It shows how the **Upload Flow** and **Recommendation Flow** interact through shared DynamoDB storage and AWS services to deliver AI-powered outfit recommendations.
+
+<img width="2660" height="1236" alt="diagram-export-11-12-2025-16_03_07" src="https://github.com/user-attachments/assets/8623f4bf-fb45-4dbe-be0d-2c75244688f2" />
+
 ---
 
 ## 🚩 1. Problem
@@ -61,13 +67,5 @@ CluelessStyleMatcher demonstrates measurable benefits:
 - Simple **static front-end hosting** ensures accessibility and fast load times  
 
 This project showcases **practical application of AWS serverless services and AI integration** for consumer-facing fashion-tech solutions.
-
----
-
-## 🖼️ 5. Architecture High-Level Diagram Layout
-
-The diagram below illustrates the architecture of **CluelessStyleMatcher**. It shows how the **Upload Flow** and **Recommendation Flow** interact through shared DynamoDB storage and AWS services to deliver AI-powered outfit recommendations.
-
-<img width="2660" height="1236" alt="diagram-export-11-12-2025-16_03_07" src="https://github.com/user-attachments/assets/8623f4bf-fb45-4dbe-be0d-2c75244688f2" />
 
 ---
