@@ -1,45 +1,65 @@
-## CluelessStyleMatcher – Problem, Solution & Cost Analysis
+## CluelessStyleMatcher – AI-Powered Outfit Recommendation System
 
-### Problem Statement
-
-Most users struggle to organise outfits, understand what items match, or choose suitable clothing for specific events or weather conditions (I know I sometimes do!). Existing fashion apps often rely on manual tagging, inconsistent styling rules, or generic recommendations that fail to integrate with a user’s actual wardrobe.
-
-**CluelessStyleMatcher addresses this by providing an automated, serverless, AI-powered outfit recommendation system.**
+_CluelessStyleMatcher is a serverless, AI-driven platform that analyses wardrobe images, stores structured metadata, and provides personalised outfit recommendations. It is inspired by the movie Clueless! It is designed for low cost, automatic scaling, and minimal operational overhead, it is ideal for SMEs, fashion-tech prototypes, or personal projects._
 
 ---
 
-### Solution Design
+### Problem Statement
 
-CluelessStyleMatcher uses an entirely serverless architecture on AWS to analyse wardrobe images, store structured metadata, and generate personalised outfit recommendations based on user-defined scenarios.
+Most users struggle to:
 
-The workflow is split into two flows:
+- Organise outfits and wardrobe items effectively.
+- Determine what items match for events, seasons, or weather conditions.
+- Use existing fashion apps, which often rely on manual tagging, inconsistent styling rules, or generic recommendations.
+
+**CluelessStyleMatcher solves this by delivering automated, AI-powered outfit recommendations that integrate directly with a user’s wardrobe.**
+
+---
+
+### Solution Architecture
+
+CluelessStyleMatcher leverages **AWS serverless services** and AI to provide a fully automated wardrobe management and recommendation system:
 
 #### **1. Upload Flow – Automated Wardrobe Processing**
 
-Users upload wardrobe images to an S3 bucket. An AWS Lambda function triggers automatically, calling Amazon Rekognition to detect attributes such as:
-
-- Colour
-- Style
-- Material
-- Garment Type
-
-Extracted metadata is written to DynamoDB, forming a structured, scalable wardrobe database.
+- Users upload wardrobe images to **Amazon S3**.
+- **S3 event triggers** an **AWS Lambda** function.
+- Lambda invokes **Amazon Rekognition** to extract metadata:
+  - Colour
+  - Style
+  - Material
+  - Garment type
+- Structured metadata is stored in **DynamoDB** (single-table design) for **scalable and fast retrieval**.
 
 #### **2. Recommendation Flow – AI-Powered Outfit Suggestions**
 
-When a user requests an outfit scenario (e.g., _“sunny Barcelona trip”_, _“winter commute”_, _“birthday dinner”_), the front-end (S3 + CloudFront) calls an API hosted on API Gateway.
+- Users request outfit recommendations via the front-end (**S3 + CloudFront**) or mobile app.
+- **API Gateway** triggers a Lambda function that:
+  - Retrieves wardrobe metadata from DynamoDB.
+  - Constructs a prompt and calls **Amazon Bedrock** for AI-powered recommendations.
+  - Returns a response including:
+    - Natural-language explanation of outfit choice.
+    - List of selected wardrobe items.
+    - Optional styling notes or colour-matching guidance.
+- Recommendations are displayed to the user via the static front-end.
 
-A Lambda function retrieves wardrobe metadata from DynamoDB, constructs a prompt, and sends it to Amazon Bedrock to generate:
+#### **Security & Compliance**
 
-- A natural-language explanation
-- A list of selected wardrobe items
-- Optional styling notes or colour-matching guidance
+- Lambda functions use **least-privilege IAM roles**.
+- S3 buckets enforce **server-side encryption (SSE)** and **access control policies**.
+- API Gateway endpoints use **HTTPS** and optional authentication (Cognito or API keys).
 
-The response is returned to the static site, where the user can visualise the recommended outfit.
+#### **Monitoring & Observability**
 
-**The design prioritises simplicity, low cost, automatic scaling, and minimal operational overhead—ideal for a single engineer or SME fashion-tech prototype.**
+- **CloudWatch Logs** capture Lambda invocations, errors, and Rekognition/Bedrock API latencies.
+- **CloudWatch Metrics** and alarms notify administrators of failed image processing or failed AI recommendations.
+- Optional SNS notifications can alert the developer of system anomalies.
 
-_The diagram below shows the high-level architecture of CluelessStyleMatcher, including both the **Upload Flow** and **Recommendation Flow**._
+#### **Scalability & Reliability**
+
+- Serverless architecture allows **automatic scaling** for spikes in uploads or recommendation requests.
+- DynamoDB and S3 are **highly available across multiple AZs**.
+- Event-driven workflow ensures reliable ingestion and AI processing without manual intervention.
 
 ![CluelessStyleMatcher Architecture](../architecture/cluelessstylematcher-architecture.png)
 
@@ -47,27 +67,25 @@ _The diagram below shows the high-level architecture of CluelessStyleMatcher, in
 
 ### Cost Analysis
 
-CluelessStyleMatcher is intentionally designed to be extremely low-cost while still providing high-quality AI-driven recommendations.
+CluelessStyleMatcher is **designed for minimal cost** while providing AI-driven functionality:
 
-The primary cost drivers are:
+1. **Amazon S3 Storage** – inexpensive storage for wardrobe images; scales linearly with usage.
+2. **AWS Lambda** – pay-per-use billing ensures low compute cost for typical usage.
+3. **Amazon Rekognition** – billed per image; predictable for limited wardrobe sizes.
+4. **Amazon Bedrock Inference** – main cost driver; on-demand usage enables tight cost control.
+5. **DynamoDB Storage & Reads** – small, structured metadata keeps storage and read/write costs minimal.
 
-1. **Amazon S3 Storage**  
-   Inexpensive storage for wardrobe images. Costs scale linearly with usage but remain low for SMEs and prototypes.
-
-2. **Lambda Functions**  
-   All compute is serverless and billed per millisecond. For typical usage patterns, monthly compute costs remain small.
-
-3. **Amazon Rekognition**  
-   Costs apply per image analysed. Wardrobe images are usually limited, so monthly spend remains predictable.
-
-4. **Amazon Bedrock Inference**  
-   The main cost component. Usage is event-driven (on-demand recommendations), enabling full cost control.
-
-5. **DynamoDB Storage & Reads**  
-   Minimal cost due to small item sizes and low throughput requirements.
-
-Because infrastructure scales automatically and avoids traditional servers, **CluelessStyleMatcher provides an AI-capable solution at a fraction of the price of a traditional hosted application**. Costs can be controlled tightly by limiting image ingestion or capping Bedrock requests.
-
-Overall, the architecture delivers a **highly cost-efficient, production-ready platform** suitable for fashion-tech SMEs, or for personal usage!
+Because infrastructure is **fully serverless**, scales automatically, and avoids traditional servers, CluelessStyleMatcher delivers **high-quality AI recommendations at a fraction of the cost** of traditional hosted applications.
 
 ---
+
+### Key Architectural Decisions
+
+1. **Serverless Event-Driven Design** – simplifies maintenance and scales with workload.
+2. **Metadata Storage in DynamoDB** – enables fast, structured queries for AI prompts.
+3. **AI Integration via Bedrock** – provides natural-language outfit recommendations and flexibility for multiple scenarios.
+4. **Security Best Practices** – IAM least privilege, encrypted storage, and HTTPS endpoints.
+5. **Monitoring & Alerts** – CloudWatch and optional SNS ensure operational visibility.
+6. **Cost Optimization** – pay-per-use compute and AI services, minimal storage, and on-demand scaling.
+
+_CluelessStyleMatcher provides a **production-ready, scalable, and secure fashion-tech solution**, suitable for SMEs or personal use with minimal operational overhead._
